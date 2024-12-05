@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-
 import "./globals.css";
 import { Figtree } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import UserContextProvider from "@/provider/UserContextProvider";
 
 const figtree = Figtree({ subsets: ["latin"] });
 
@@ -18,20 +18,22 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${figtree.className}  antialiased bg-gray-50`}>
-				<NextTopLoader
-					color="#E55812"
-					initialPosition={0.08}
-					crawlSpeed={200}
-					height={3}
-					crawl={true}
-					showSpinner={false}
-					easing="ease"
-					speed={200}
-					shadow="0 0 10px #E55812,0 0 5px #E55812"
-				/>
-				{children}
-			</body>
+			<UserContextProvider>
+				<body className={`${figtree.className}  antialiased bg-gray-50`}>
+					<NextTopLoader
+						color="#E55812"
+						initialPosition={0.08}
+						crawlSpeed={200}
+						height={3}
+						crawl={true}
+						showSpinner={false}
+						easing="ease"
+						speed={200}
+						shadow="0 0 10px #E55812,0 0 5px #E55812"
+					/>
+					{children}
+				</body>
+			</UserContextProvider>
 		</html>
 	);
 }
