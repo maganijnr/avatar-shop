@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 import MaxwidthWrapper from "./MaxwidthWrapper";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import Image from "next/image";
+import { Logo } from "../../public";
 
 const Navbar = () => {
 	return (
@@ -11,9 +14,16 @@ const Navbar = () => {
 					href={"/"}
 					className="text-3xl font-bold text-custom-persimmon"
 				>
-					AVATAR
+					<div className="w-[120px] h-[48px] relative">
+						<Image
+							src={Logo}
+							alt="logo"
+							layout="fill"
+							objectFit="contain"
+						/>
+					</div>
 				</Link>
-				<Button className="bg-custom-persimmon font-semibold text-xs md:text-base hover:bg-custom-persimmon hover:bg-opacity-90  py-2">
+				<Button className="bg-custom-persimmon font-semibold text-xs md:text-base hover:bg-custom-persimmon hover:bg-opacity-90 ">
 					Get Started
 				</Button>
 			</MaxwidthWrapper>
