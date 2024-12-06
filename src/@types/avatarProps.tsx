@@ -4,4 +4,5 @@ export interface AvatarProps {
 	description: string;
 	isBought: boolean;
 	name: string;
+	id: string;
 }

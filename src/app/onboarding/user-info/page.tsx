@@ -20,6 +20,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
 	username: z.string().min(2, {
@@ -34,7 +41,13 @@ const formSchema = z.object({
 	occupation: z.string().min(2, {
 		message: "Occupation is required",
 	}),
+	gender: z.string().min(2, { message: "Gender is required" }),
 });
+
+const GENDER = [
+	{ label: "Male", value: "male" },
+	{ label: "Female", value: "Female" },
+];
 
 const UserInfo = () => {
 	//Context
@@ -73,6 +86,7 @@ const UserInfo = () => {
 			instagram: newUser?.instagram || "",
 			twitter: newUser?.twitter || "",
 			occupation: newUser?.occupation || "",
+			gender: newUser?.gender || "",
 		},
 	});
 
@@ -117,6 +131,36 @@ const UserInfo = () => {
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="space-y-8 w-full"
 					>
+						<FormField
+							control={form.control}
+							name="gender"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel className="text-custom-persimmon font-semibold text-sm">
+										Team Lead
+									</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Select gender" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{GENDER.map((item, idx) => (
+												<SelectItem value={item.value} key={idx}>
+													{item.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						<FormField
 							control={form.control}
 							name="occupation"

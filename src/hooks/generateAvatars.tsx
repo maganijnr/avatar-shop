@@ -49,6 +49,7 @@ const generateAvatars = () => {
 				description,
 				isBought,
 				name: `Micah Avatar ${i + 1}`,
+				id: `avatar-${i + 1}`,
 			});
 		}
 
@@ -78,6 +79,7 @@ const generateAvatars = () => {
 				description,
 				isBought,
 				name: `Micah Avatar ${i + 1}`,
+				id: `home-avatar-${i + 1}`,
 			});
 		}
 

@@ -1,4 +1,5 @@
 "use client";
+import { AvatarProps } from "@/@types/avatarProps";
 import { useRouter } from "next/navigation";
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
 
@@ -7,6 +8,8 @@ interface UserContextProps {
 	handleNewUserUpdate: (values: any) => void;
 	createNewUser: (values: any) => void;
 	currentUser: any;
+	purchaseHistory: any[];
+	buyAvatar: (value: AvatarProps) => void;
 }
 
 export const UserContext = createContext<UserContextProps>({
@@ -14,12 +17,15 @@ export const UserContext = createContext<UserContextProps>({
 	handleNewUserUpdate: (values: any) => {},
 	createNewUser: (values: any) => {},
 	currentUser: {},
+	purchaseHistory: [],
+	buyAvatar: (values: AvatarProps) => {},
 });
 
 const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const router = useRouter();
 	const [newUser, setNewUser] = useState<any>({});
 	const [currentUser, setCurrentUser] = useState<any>({});
+	const [purchaseHistory, setPurchaseHistory] = useState<any[]>([]);
 
 	function handleNewUserUpdate(values: any) {
 		setNewUser(values);
@@ -31,6 +37,25 @@ const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 			window.location.href = "/onboarding/success";
 		}
+	}
+
+	function buyAvatar(value: AvatarProps) {
+		if (Object.entries(value).length === 0) {
+			alert("Create an account to buy an avatar");
+			return;
+		}
+
+		const prevPurchase =
+			typeof window !== "undefined" &&
+			localStorage.getItem("purchaseHistory")
+				? JSON.parse(localStorage.getItem("purchaseHistory")!)
+				: [];
+
+		console.log("🚀 ~ buyAvatar ~ prevPurchase:", prevPurchase);
+
+		const updatedHistory = [...prevPurchase, value];
+		localStorage.setItem("purchaseHistory", JSON.stringify(updatedHistory));
+		setPurchaseHistory(updatedHistory);
 	}
 
 	useEffect(() => {
@@ -45,9 +70,30 @@ const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			if (localStorage.getItem("purchaseHistory")) {
+				const history = JSON.parse(
+					localStorage.getItem("purchaseHistory")!
+				);
+
+				setPurchaseHistory(history);
+			} else {
+				setPurchaseHistory([]);
+			}
+		}
+	}, []);
+
 	return (
 		<UserContext.Provider
-			value={{ newUser, handleNewUserUpdate, createNewUser, currentUser }}
+			value={{
+				newUser,
+				handleNewUserUpdate,
+				createNewUser,
+				currentUser,
+				purchaseHistory,
+				buyAvatar,
+			}}
 		>
 			{children}
 		</UserContext.Provider>
