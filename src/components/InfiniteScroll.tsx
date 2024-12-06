@@ -6,7 +6,6 @@ import AvatarCard from "./AvatarCard";
 
 const InfiniteScroll = () => {
 	const { homeAvatars } = generateAvatars();
-	console.log("🚀 ~ InfiniteScroll ~ homeAvatars:", homeAvatars);
 
 	return (
 		<Marquee className="gap-4">

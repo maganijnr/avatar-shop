@@ -30,13 +30,14 @@ const generateAvatars = () => {
 	function handleGenerate() {
 		const avatars = [];
 
-		for (let i = 0; i < 100; i++) {
-			const avatarSeed = `${i}`; // Replace with your desired seed
-			const avatarUrl = createAvatar(micah, {
+		for (let i = 0; i < 20; i++) {
+			const avatarSeed = `${i}`;
+			const iconSeed = createAvatar(micah, {
 				seed: avatarSeed,
-			}).toDataUri();
+			});
 
-			// const avatar = `https://api.dicebear.com/9.x/avataaars/svg?seed=${i}`;
+			const avatarUrl = iconSeed.toDataUri();
+
 			const price = Math.floor(Math.random() * 100) + 1;
 			const description = `#${i}. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing 
 			software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -50,6 +51,7 @@ const generateAvatars = () => {
 				isBought,
 				name: `Micah Avatar ${i + 1}`,
 				id: `avatar-${i + 1}`,
+				seed: iconSeed.toString(),
 			});
 		}
 
@@ -61,9 +63,11 @@ const generateAvatars = () => {
 
 		for (let i = 0; i < 10; i++) {
 			const avatarSeed = `${i}`; // Replace with your desired seed
-			const avatarUrl = createAvatar(micah, {
+			const iconSeed = createAvatar(micah, {
 				seed: avatarSeed,
-			}).toDataUri();
+			});
+
+			const avatarUrl = iconSeed.toDataUri();
 
 			// const avatar = `https://api.dicebear.com/9.x/avataaars/svg?seed=${i}`;
 			const price = Math.floor(Math.random() * 100) + 1;
@@ -80,6 +84,7 @@ const generateAvatars = () => {
 				isBought,
 				name: `Micah Avatar ${i + 1}`,
 				id: `home-avatar-${i + 1}`,
+				seed: iconSeed.toString(),
 			});
 		}
 

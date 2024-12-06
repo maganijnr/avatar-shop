@@ -2,6 +2,7 @@
 import { AvatarProps } from "@/@types/avatarProps";
 import { useRouter } from "next/navigation";
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import * as THREE from "three";
 
 interface UserContextProps {
 	newUser: any;
@@ -26,6 +27,7 @@ const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const [newUser, setNewUser] = useState<any>({});
 	const [currentUser, setCurrentUser] = useState<any>({});
 	const [purchaseHistory, setPurchaseHistory] = useState<any[]>([]);
+	// const [isMounted, se]
 
 	function handleNewUserUpdate(values: any) {
 		setNewUser(values);
@@ -70,19 +72,19 @@ const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 		}
 	}, []);
 
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			if (localStorage.getItem("purchaseHistory")) {
-				const history = JSON.parse(
-					localStorage.getItem("purchaseHistory")!
-				);
+	// useEffect(() => {
+	// 	if (typeof window !== "undefined") {
+	// 		if (localStorage.getItem("purchaseHistory")) {
+	// 			const history = JSON.parse(
+	// 				localStorage.getItem("purchaseHistory")!
+	// 			);
 
-				setPurchaseHistory(history);
-			} else {
-				setPurchaseHistory([]);
-			}
-		}
-	}, []);
+	// 			setPurchaseHistory(history);
+	// 		} else {
+	// 			setPurchaseHistory([]);
+	// 		}
+	// 	}
+	// }, []);
 
 	return (
 		<UserContext.Provider
