@@ -6,9 +6,12 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { UserContext } from "@/provider/UserContextProvider";
 
 export default function Home() {
 	const { avatars } = generateAvatars();
+	const { currentUser } = useContext(UserContext);
 
 	const bounceAnimation = {
 		initial: { scale: 1 },
@@ -30,12 +33,12 @@ export default function Home() {
 					<h1 className="text-4xl xl:text-5xl text-center font-bold">
 						Elevate Your Online Presence with Unique Avatars
 					</h1>
-					<h5 className="text-base text-center sm:text-base md:text-lg mt-5 font-medium">
+					<h5 className="text-sm text-center sm:text-base md:text-lg mt-5 font-medium px-5">
 						Stand Out from the Crowd with Our Exclusive Avatar Collection
 					</h5>
-					<Link href={"/onboarding"}>
+					<Link href={currentUser?.email ? "/marketplace" : "/onboarding"}>
 						<Button className="bg-custom-persimmon mt-5 hover:bg-custom-persimmon hover:bg-opacity-90 px-10 font-medium text-base py-2">
-							Get started
+							{currentUser?.email ? "Explore" : "Get started"}
 						</Button>
 					</Link>
 				</div>
