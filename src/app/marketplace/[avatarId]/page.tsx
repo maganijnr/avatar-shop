@@ -2,22 +2,32 @@
 import MaxwidthWrapper from "@/components/MaxwidthWrapper";
 import RotatingView from "@/components/RotatingView";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import generateAvatars from "@/hooks/generateAvatars";
 import { UserContext } from "@/provider/UserContextProvider";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import React, { Suspense, useContext, useMemo } from "react";
+import React, {
+	Suspense,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 
 const AvatarDetails = () => {
 	const router = useRouter();
+	const [isOpen, setIsOpen] = useState(false);
 	const { avatarId }: { avatarId: string } = useParams();
 	const { buyAvatar, purchaseHistory } = useContext(UserContext);
 
 	const { avatars } = generateAvatars();
 
 	const selectedAvatar = useMemo(() => {
-		return avatars.find((avatar) => avatar.id === avatarId);
+		const avatar = avatars.find((avatar) => avatar.id === avatarId);
+
+		return avatar;
 	}, [avatarId, avatars]);
 
 	const isBought: boolean = useMemo(() => {
@@ -61,19 +71,43 @@ const AvatarDetails = () => {
 								{selectedAvatar?.description}
 							</p>
 
-							<Button
-								className="w-full md:w-fit mt-5 bg-custom-persimmon hover:bg-custom-persimmon hover:bg-opacity-90 md:px-20 disabled:bg-opacity-90"
-								onClick={() => {
-									buyAvatar(selectedAvatar);
-								}}
-								disabled={isBought}
-							>
-								{isBought ? "Bought" : "Buy"} for $
-								{selectedAvatar?.price}
-							</Button>
+							<div className="flex flex-col lg:flex-row gap-5 mt-5 lg:mt-0">
+								<Button
+									className="w-full lg:w-fit lg:mt-5 bg-custom-persimmon hover:bg-custom-persimmon hover:bg-opacity-90 md:px-20 disabled:bg-opacity-90"
+									onClick={() => {
+										buyAvatar(selectedAvatar);
+									}}
+									disabled={isBought}
+								>
+									{isBought ? "Bought" : "Buy"} for $
+									{selectedAvatar?.price}
+								</Button>
+
+								<Button
+									className="w-full lg:w-fit lg:mt-5 border border-custom-persimmon bg-white text-custom-persimmon hover:bg-custom-persimmon hover:text-white md:px-20 disabled:bg-opacity-90"
+									onClick={() => {
+										setIsOpen(true);
+									}}
+								>
+									View in 360
+								</Button>
+							</div>
 						</div>
 					</div>
 				</div>
+
+				<Dialog
+					open={isOpen}
+					onOpenChange={() => {
+						setIsOpen(false);
+					}}
+				>
+					<DialogContent>
+						<div className="h-[20rem] w-full">
+							<RotatingView imageSource={selectedAvatar?.avatar} />
+						</div>
+					</DialogContent>
+				</Dialog>
 			</MaxwidthWrapper>
 		</div>
 	);

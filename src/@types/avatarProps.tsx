@@ -5,4 +5,5 @@ export interface AvatarProps {
 	isBought: boolean;
 	name: string;
 	id: string;
+	seed: any;
 }
